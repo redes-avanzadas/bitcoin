@@ -550,11 +550,9 @@
 % 
 % Here we have the typical use of a "T" for an initial drop letter
 % and "HIS" in caps to complete the first word.
-\IEEEPARstart{L}{as} 
 
 
-\section {Bitcoin}
-Bitcoin es una colección de conceptos y tecnologías que forma la base de un ecosistema monetario digital. La divisas llamada \emph{bitcoin} se usa para almacenar y transmitir valor entro los participantes de una red bitcoin. Los usuario de bitcoin se comunican entre sí usando el protocolo bitcoin principalmente a través de Internet, aunque otras redes de transporte puede también ser usadas. Las tecnologías del protocolo bitcoin, disponibles como código abierto, puede ser ejecutadas en un amplio rango de dispositivos de computación, incluyendo computadoras portátiles y teléfonos inteligentes, haciendo que esta tecnología sea de fácil acceso.
+\IEEEPARstart{B}{itcoin} es una colección de conceptos y tecnologías que forma la base de un ecosistema monetario digital. La divisas llamada \emph{bitcoin} se usa para almacenar y transmitir valor entro los participantes de una red bitcoin. Los usuario de bitcoin se comunican entre sí usando el protocolo bitcoin principalmente a través de Internet, aunque otras redes de transporte puede también ser usadas. Las tecnologías del protocolo bitcoin, disponibles como código abierto, puede ser ejecutadas en un amplio rango de dispositivos de computación, incluyendo computadoras portátiles y teléfonos inteligentes, haciendo que esta tecnología sea de fácil acceso.
 
 Los usuarios pueden transferir bitcoins en una red para hacer básicamente cualquier cosa que puede ser heca con divisas convencionales, incluyendo la compra y venta de bienes, envío de dinero o para crédito. El bitcoin puede ser comprado, vendido e intercambiado por otras divisas con tipos de cambio especializados. En cierto sentido, bitcoin es la forma perfecta de dinero para el Internet porque es rápida, segura y sin fronteras.
 
@@ -601,7 +599,7 @@ En la figura \ref{fig:bitcoin-overview} se ve que el sistema bitcoin conside de 
 \begin{figure*}[h]
     \center
     \includegraphics[width=15cm]{bitcoin-overview}
-    \caption{Bitcoin: visión general. cite{rexford}.}
+    \caption{Bitcoin: visión general}
     \label{fig:bitcoin-overview}
 \end{figure*}
 
@@ -617,7 +615,7 @@ La transacción también contiene pruebas de propiedad para cada cantidad de bit
 \begin{figure}[h]
     \center
     \includegraphics[width=9cm]{bookkepping}
-    \caption{Transacción Bitcoin vista como un libro de contabilidad. cite{rexford}.}
+    \caption{Transacción Bitcoin vista como un libro de contabilidad.}
     \label{fig:bookkepping}
 \end{figure}
 
@@ -627,16 +625,110 @@ Un pago usa la salida una transacción previa como su entrada. Las transacciones
 \begin{figure}[h]
     \center
     \includegraphics[width=9cm]{chain}
-    \caption{Una cadena de transacciones, donde la salida de una transacción es la entrada de la otra. cite{rexford}.}
+    \caption{Una cadena de transacciones, donde la salida de una transacción es la entrada de la otra.}
     \label{fig:chain}
 \end{figure}
 
 Muchas transacciones bitcoin incluyen salidas que referencias ambos, una dirección del nuevo propietario y una dirección del propietario actual, llamada la \emph{change address}. Esto es porque las entradas de la transacción no pueden ser divididas. Si se compra un artículo de \$5 en una tienda pero se usa un billete de \$20 para pagarlo, se espera recibir \$15 como cambio. El mismo concepto aplica con las entradas de transacción en bitcoin. Si se compra un artículo que cuesta 5 bitcoins pero solo se tiene 20 bitcoins para usar, se enviaría una salida de 5 bitcoin al propietario de la tienda y una salida de 15 bitcoin de vuelta al usuario como cambio (menos cualquier comisión de transacción aplicable). El \emph{change address} no tiene que tener la misma dirección que la que se usó como entrada y por razones de privacidad es usualmente una nueva dirección del monedero del propietario.
 
-En resumen, las transacciones mueven valir desde entradas de transacción a salidas de transacción. Una entrada es una referencia a una salida de transacción previa, que muestra de donde viene el valor. Una salida de transacción direcciona un valor específico a una nueva dirección de propietario bitcoin y puede incluer una salida de cambio de vuelta al propietario original. Las salidas de una transacción pueden ser usadas como entras en una nueva transacción, creando así una cadena de propiedad conforme el nuevo valor se muee de un propietario a otro. 
+En resumen, las transacciones mueven valir desde entradas de transacción a salidas de transacción. Una entrada es una referencia a una salida de transacción previa, que muestra de donde viene el valor. Una salida de transacción direcciona un valor específico a una nueva dirección de propietario bitcoin y puede incluer una salida de cambio de vuelta al propietario original. Las salidas de una transacción pueden ser usadas como entras en una nueva transacción, creando así una cadena de propiedad conforme el nuevo valor se mueve de un propietario a otro. 
+
+\subsection{Formas comunes de transacción}
+La forma más comurn de transaccio4n es un pago simple desde una dirección a otra, la cual usualmente incluye algun ``cambio'' retornado al propietario original. Este tipo de transacción tiene una entrada y dos salidas como se muestra en la figura \ref{fig:trans1}    
+
+\begin{figure}[h]
+    \center
+    \includegraphics[width=9cm]{trans1}
+    \caption{La transacción más común}
+    \label{fig:trans1}
+\end{figure}
+
+Otra forma común de transacción es una que agrega varias entradas en una sola salida. Esto representa el equivalente en el mundo real a cambiar una pila de monedas y billetes por una sola nota. Transacciones como estas son algunas veces generadas por aplicaciones de monedeors para limpiar muchos pequeños montos que fueron recibidos como cambio de pagos previos.
+
+\begin{figure}[h]
+    \center
+    \includegraphics[width=9cm]{trans2}
+    \caption{Transacción de fondos agregados}
+    \label{fig:trans2}
+\end{figure}
+
+Finalmente, otra forma de transacción que se ve con frecuencia en el libro de bitcoin es una transacción que distribuye una entrada en varias salidas representando múltiples destinatarios. Este tipo de transacción la usan a veces las entidades comerciales para distribuir fondos, como cuando se procesa el pago de la nómina a múltiples empleados.
+
+\begin{figure}[h]
+    \center
+    \includegraphics[width=9cm]{trans3}
+    \caption{Transacción de fondos distribuidos}
+    \label{fig:trans3}
+\end{figure}
+
+\subsection{Construyendo una Transacción}
+La aplicación de monedero de un usuario contiene toda la lógica para seleccionar las entradas y salidas apropiadas para construir una transacción. El usuario sólo necesita especificar un destino y un monto y el resto sucede en la aplicación de monedero sin que se vean los detalles. La aplicación de monedero puede construir transacciones inclusive cuando esta totalmente fuera de línea. Tal y como escribir un cheque en la casa y enviarlo luego al banco, la transacción no necesita que se construya y se firme mientras se está conectado a la red bitcoin.
+
+\subsubsection{Obteniendo las entradas apropiadas}
+La aplicación de monedero primer tiene que buscar las entradas para que pueda pagar la cantidad deseada. La mayoría de los monederos llevan un registro de toas las salidas disponibles que pertenecen a la dirección del monedero. Una aplicación de monedero que se ejecute como \emph{full-node client} contiene una copa de todas las salidas pendientes para cualquier transacción en el blockchain. Esto permite que el monedero construya entradas de transacciones y verifique rápidamente que las transacciones entrantes tengan entradas correctas. Sin embargo, debido a que un \emph{full-client node} ocupa mucho espacio en disco, la mayoría de los usuarios de monederos usan la versión ``liviana'' que solo registra las salidas no utilizadas del usuario.
+
+Si la aplicación de monedero no mantiene una copia de las transacciones pendientes, puede entonces hacer una consulta a la red bitcoin para obtener esta información usando una variedad de API\footnote{\emph{Application Programming Interface}} disponibles por diferentes proveedores o preguntando a un \emph{full-node} usando una llamada por programación.
+
+\subsubsection{Creando las salidas}
+Una salida de transacción se crea en forma de un script que crea un gravamen en el valor y solo se puede canjear mediante la introducción de una solución al script. En términos simples, la salida de la transacción de un usuario $A$ va contener un script que dice algo como ``Esta salida se paga a quien pueda presentar una firma desde la llave correspondiente a la dirección pública de $B$, siendo $B$ en este caso el destinatario de la transacción. Debido a que sólo el usuario $B$ tiene el monedero con las llaves correspondientes a esa dirección, solamente el monedero de $B$ puede presentar dicha firma para redimir esta salida. Por lo tanto, $A$ ``gravará'' el valor de la salida con una demanda de una firma de $B$.
+
+Finalmente, para que la transacción pueda ser procesada por la red de manera oportuna, la aplicación de monedero de $A$ agregará una pequeña comisión. La comisión de transacción que colecta el minero es una tarifa para validar e incluir la transacción en un bloque que se registrará en el blockchain.
+
+\subsubsection{Agregando la transacción al libro}
+La transacción anteriormente cread contiene ahora todo lo necesairo para confirmar la origen de los fondos y asignar nuevos propietarios. Ahora  la transacción debe ser transmitida a la red bitcoin donde será parte del blockchain. 
+
+\paragraph{Transmitiendo la transacción} debido a que la transacción contiene toda la información necesario para procesarse, no importa cómo o dónde se transmite en la red bitcoin. La red bitcoin es una red punto-a-punto, en donde cada cliente bitcoin participa al conectarse con otros clientes bitcoin. El propósito de la red bitcoin es propagar transacciones y bloques a todos los participantes.
+
+\paragraph{¿Cómo se propaga?} Cualquier sistema, como un servidor, aplicación o monedero que participa en la red bitcoin al ``hablar'' el protocolo bitcoin se llama un nodo bitcoin. La aplicación de monedero de un usuario puede enviar la nueva transacción a cualquier nodo bitcoin. El monedero no necesita esta conectado directamente al monedero de otro usuario tampoco.Cualquier nodo bitcoin que reciba una transacción válida que no se haya visto antes lo reenviará inmediatamente a todos los otros nodos a los que esté conectado, una técnica de propagación conocida como inundación (\emph{flooding}). Así, la transacción se propaga rápidamente a través de la red punto-a-punto, alcanzando un gran porcentaje de los nodos en unos pocos segundos.
+
+\section{Minando Bitcoin}
+Una transacción que se propaga a través de la red bitcoin no se convierte en parte del blockchain hasta que sea verificada e incluida en un bloque por un proceso llamado minería (\emph{minning}).
+
+El sistema de confianza de bitcoind está basado en computación. Las transacciones se agrupan en bloques, que requieren una gran cantidad de cómputo para probar, pero solo una pequeña cantidad de cómputo para verificarlo como comprobado. El proceso de minería tiene dos propósitos en bitcoin:
+\begin{itemize}
+    \item Los nodos de minería validan todas las transacciones con referencia en las reglas de consenso de bitcoin. Por lo tanto, la minería proporciona seguridad para las transacciones bitcoin al rechazar transacciones inválidas o mal formadas.
+    \item La minería crea un nuevo bitcoin en cada bloque, casi como un banco central imprime nueva moneda. La cantidad de bitcoin creado por bloque es limitado y disminuye con el tiempo, siguiendo un calendario de emisión fijo.  
+\end{itemize}
+
+La minería logra un fino equilibrio entre los costos y la reconmpensa. La minería usa electricidad para resolver un problema matemático. Un minero exitoso va a recolectar una recompensa en la forma de nuevos bitcoins y comisiones de transacciones. Sin embargo, la recompensa solamente será recolectada si un minero ha validado correctamente todas las transacciones, para satisfacer las reglas de concenso. Este delicado balance proporciona seguridad para bitcoin sin una autoridad central.
+
+Una buena forma para describir la minería es como un gigante juego competitivo de sudoku que se reinicia cada ver que alguien encuentra una solución y cuya dificultad automáticamente se ajusta para que tome aproximadamente 10 minutos para encontrar la solución. Este juego gigante de sudoku se puede imaginar con un tamaño de miles de columnas y filas. Si se muestra que el juego fue resuelto se puede verificar rápidamente. Sin embargo, si el juego tiene varios cuadros llenos y varias vacíos, tomará mucho trabajo en ser resuelto. La dificultad del sudoku puede ser ajustada al cambiar su tamaño (más o menos filas y columnas), pero aún asi puede ser verificado fácilmente. El ``juego'' usado en bitcoin se base en una función \emph{hash} criptográfica y expone características similares: es asimétricamente difícil de resolver pero fácil de verificar, y esta dificultad puede ser ajustada.
+
+\section{Minando Transacciones en Bloques}
+Nuevas transacciones están constantemente fluyendo dentro de la red desde monederos de usuarios y otras aplicaciones. Como estos son vistos por la red bitcoin como nodos, se agregan a un \emph{pool} temporal de transacciones no verificadas mantenidas por cada nodo. Conforme los mineros construyen un nuevo bloque, van agregando transacciones no verificadas desde este \emph{pool} a un nuevo bloque y luego intentan probar la validez de ese nuevo bloque, con el algoritmo de minería de prueba-de-trabajo. 
+
+Las transacciones son agregadas a un nuevo bloque, priorizadas de acuerdo con las comisiones de transacción más altas y alguna otros criterios. Cada minero inicia el proceso de minería de un nuevo bloque de transacciones tan pronto y como recibe un bloque previo de la red, a sabiendas que a perdido la ronda previa de competición. Inmediatamente crea un nuevo bloque, lo llena con las transacciones y una huella (\emph{fingerprint}) del bloque previo, e inicia el cálculo de la prueba-de-trabajo para el nuevo bloque. Canda minero incluye una transacción especial a su bloque, uno que paga su propia dirección de bitcoin la recompensa del bloque más la suma de comisiones de trasacción de todas las transacciones incluidas en el bloque. Si encuentra una solución que haga que ese bloque sea válido, él ``gana'' su recompensa porque su bloque exitoso se agregó al blockchain global y la transacción de recompensa que él incluyó se vuelve en gastable.
+
+\subsection{Ejemplo: Jing y Alice}
+Jing es un usuario que lleva varios años participando del proceso de minería. Ha configurado su software para crear nuevos bloques que asignas un premio al \emph{pool} de direcciones. A partir de ahi, una parte del premio es distribuido a Jing y a otros mineros en proporción a la cantidad de trabajo con el que contribuyan en la última ronda.
+
+Alice ha realizado una transacción y esta ha sido tomada por la red e incluida en un \emph{pool} de transacciones no verificadas. Una vez validada por el software de minería fue incluida en un nuevo bloque, llamado bloque candidato, generado por el \emph{pool} de minería de Jing. Todos los mineros participando en ese \emph{pool} de minería inician inmediatamente el cálculo de la prueba-de-trabajo para el bloque candidato. Aproximadamente cinco minutos después que la transacción fue transmitida por el monedero de Alice, uno de los circuitos de minería de Jing encuentra la solución para el bloque candidato y lo anuncia a la red. Mientras que los otros mineros valida el bloque ganador, ellos inician la carrera para generar el próximo bloque.
 
 
+El bloque ganador de Jing se vuelve parte del blockchain como el bloque \#277316, que contiene 420 transacciones, incluyendo la transacción de Alice. El bloque que contiene la transacción de Alice se cuenta como una ``confirmación'' de esa transacción.
 
+Aproximadamente 19 minutos después, un nuevo bloque \#277317, es minado por otro minero. Debido a que este nuevo bloque está construido por encima del bloque \#277316 que contiene la transacción de Alice, se añade aun más computación al blockchain, por lo tanto fortalece la confianza en esas transacciones. Cada bloque minado sobre el que contiene la transacción cuenta como una confirmación adicional para la transacción de Alicia. Conforme los bloques se apilan uno por encima del otro, se vuelve exponencialmente más difícil reversar la transacción, de esta forma se hace más y más confiable por la red.
+
+En la figura \ref{fig:block}, se puede ver el bloque \#277316, que contiene la transacción de Alice. Por debajo hay 277316 bloques (incluyendo el bloque \#0), enlazados unos con otros en una cadena de bloques (blockchain) hasta regresar al bloque \#0, conocido como el bloque genesis. Con el tiempo, conforme la ``altura'' en bloques aumentaa, también lo hace la dificultad de calcular cada bloque y la cadena como un todo. Los bloques minados luego del que contiene la transacción de Alice actúan como una garantía adicional, ya que acumulan más cómputos en una cadena cada vez más larga. Por convención cualquier bloque con más de seis confirmaciones es considerado irrevocable, porque va a requerir una inmensa cantidad de computación para invalidar y recalcular seis bloques.
+
+\begin{figure}[h]
+    \center
+    \includegraphics[width=9cm]{block}
+    \caption{Transacción de fondos agregados}
+    \label{fig:block}
+\end{figure}
+
+\subsection{Gastando la Transacción}
+Ahora que la transacción de Alice ha sido agregada en el blockchain como parte de un bloque, es parte de un libro distribuido de bitcon y es visitble a todas las aplicaciones bitcoin. Cada cliente bitcoin puede verificar independientemente la transacción y considerarla válida para gastar. Los clientes \emph{full-node} pueden rastrear el origien de los fondos desde el momento en que el bitcoin fue generado en un bloque, de forma incremental, transacción a transacción, hasta que llegue a la dirección de un destinatario. Los clientes ``livianos'' pueden hacer lo que se llama un verificación de pago simplificada al confirmar que la transacción está en el blockchain y tiene varias bloques minados despues de ella, lo que garantiza que los mineros la aceptaron como válida.
+
+El destinatario de los fondos puede ahora gastar la salida de la transacción y conforme recibe pagos de otros, él a su vez extiende la cadena de transacciones. Un ejemplo de esta cadena de transacciones agregadas se puede ver en la figura \ref{fig:transaction-chain}
+
+\begin{figure}[h]
+    \center
+    \includegraphics[width=9cm]{transaction-chain}
+    \caption{Las transacciones de Alice como parte de una cadena de transacciones de Joe hasta Gopesh}
+    \label{fig:transaction-chain}
+\end{figure}
 
 % needed in second column of first page if using \IEEEpubid
 %\IEEEpubidadjcol
@@ -819,6 +911,8 @@ En resumen, las transacciones mueven valir desde entradas de transacción a sali
 \bibitem{nakamoto}
 S.~Nakamoto. \emph{Bitcoin:A Peer-to-Peer Electronic Cash System}. \hskip 1em plus 0.5em minus 0.4em\relax Que. www.bitcoin.org
 
+\bibitem{}
+A M.~Antonopoulos. \emph{Mastering Bitcoin} \hskip 1em plus 0.5em minus 0.4em\relax. Segunda Edición. O'Reilly Media, Inc. ISBN: 9781491954386. Junio 2017.
 
 
 \end{thebibliography}
